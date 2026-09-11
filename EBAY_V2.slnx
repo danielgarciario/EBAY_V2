@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="EBAY.TRADING.API.CLIENT/EBAY.TRADING.API.CLIENT.csproj" Id="a7ae3ad9-a7dd-4097-a1c9-ed6b530c1634" />
+  <Project Path="EBAYHttpClient/EBAYHttpClient.csproj" />
+  <Project Path="TestConsole/TestConsole.csproj" Id="f1fd80e2-a481-41ed-bc24-c53e0df60a50" />
+</Solution>
