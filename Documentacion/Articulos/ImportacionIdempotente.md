@@ -148,6 +148,43 @@ Actualiza el resultado de validar las unidades vendibles contra EfA.
 
 No crea mapeos manuales. Solo guarda el resultado de separar `SellableSku` en `item + qtun` y comprobar esa combinación en EfA.
 
+### Aclaración sobre la validación contra EfA
+
+La importación idempotente no valida directamente contra EfA.
+
+`ImportInventoryReport` solo guarda el inventario recibido de eBay y crea una fila `Pending` en `InventorySellableEfaValidation` para cada unidad vendible nueva.
+
+La validación real contra EfA debe hacerla un proceso posterior, todavía separado del importador:
+
+1. Leer las unidades vendibles del batch importado o de `vwCurrentSellableInventory`.
+2. Tomar `SellableSku`.
+3. Separar el SKU por el último punto usando el patrón `{item}.{qtun}`.
+4. Usar la parte izquierda como artículo EfA (`item`).
+5. Usar la parte derecha como unidad de venta EfA (`qtun`).
+6. Consultar EfA para comprobar si el artículo existe.
+7. Consultar EfA para comprobar si `qtun` es una unidad de venta válida para ese artículo.
+8. Comprobar si el artículo está activo en EfA.
+9. Guardar el resultado llamando a `UpsertInventorySellableEfaValidation`.
+10. Guardar o resolver incidencias llamando a `ReplaceArticleCompatibilityIssues`.
+
+Por tanto, la base de datos ya tiene las tablas, tipos y stored procedures para persistir el resultado de la validación, pero falta implementar el componente que consulta EfA y rellena esos resultados.
+
+El flujo previsto queda así:
+
+```text
+eBay Active Inventory Report
+        ↓
+ImportInventoryReport
+        ↓
+InventorySellableEfaValidation = Pending
+        ↓
+proceso validador contra EfA
+        ↓
+UpsertInventorySellableEfaValidation
+        ↓
+ReplaceArticleCompatibilityIssues
+```
+
 ### ReplaceArticleCompatibilityIssues
 
 Reemplaza las incidencias abiertas de un batch concreto.
