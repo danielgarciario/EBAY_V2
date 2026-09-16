@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace EBAYHttpClient.InventoryImport;
+namespace EBAY.InventoryService.InventoryImport;
 
 public static class InventoryImportDataTableBuilder
 {

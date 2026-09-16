@@ -1,4 +1,4 @@
-namespace EBAYHttpClient.InventoryImport;
+namespace EBAY.InventoryService.InventoryImport;
 
 public interface IInventoryReportImportService
 {

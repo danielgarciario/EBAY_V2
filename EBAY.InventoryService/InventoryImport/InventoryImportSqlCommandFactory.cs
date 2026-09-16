@@ -1,7 +1,7 @@
 using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace EBAYHttpClient.InventoryImport;
+namespace EBAY.InventoryService.InventoryImport;
 
 public static class InventoryImportSqlCommandFactory
 {
@@ -32,6 +32,17 @@ public static class InventoryImportSqlCommandFactory
 
         return command;
     }
+
+    public static SqlCommand CheckedImportAgainstEFACommand(SqlConnection connection, int commandTimeoutSeconds)
+    {
+        var command = connection.CreateCommand();
+        command.CommandText = "[ebay].[CheckedImportAgainstEFA]";
+        command.CommandType = CommandType.StoredProcedure;
+        command.CommandTimeout = commandTimeoutSeconds;
+
+        return command;
+    }
+
 
     private static void AddStructured(SqlCommand command, string name, string typeName, DataTable value)
     {

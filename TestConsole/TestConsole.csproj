@@ -18,7 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EBAY.DatabaseConnection\EBAY.DatabaseConnection.csproj" />
+    <ProjectReference Include="..\EBAY.InventoryService\EBAY.InventoryService.csproj" />
     <ProjectReference Include="..\EBAY.TRADING.API.CLIENT\EBAY.TRADING.API.CLIENT.csproj" />
+    <ProjectReference Include="..\EBAYHttpClient\EBAYHttpClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

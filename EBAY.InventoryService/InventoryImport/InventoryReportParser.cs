@@ -1,6 +1,6 @@
 using System.Xml.Serialization;
 
-namespace EBAYHttpClient.InventoryImport;
+namespace EBAY.InventoryService.InventoryImport;
 
 public sealed class InventoryReportParser
 {

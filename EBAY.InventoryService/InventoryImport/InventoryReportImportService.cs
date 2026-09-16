@@ -1,13 +1,14 @@
+using EBAY.DatabaseConnection;
 using EBAYHttpClient.Options;
-using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace EBAYHttpClient.InventoryImport;
+namespace EBAY.InventoryService.InventoryImport;
 
 public sealed class InventoryReportImportService(
     IOptions<EBAYDB> options,
+    IEbayDatabaseConnectionFactory connectionFactory,
     InventoryReportParser parser) : IInventoryReportImportService
 {
     private readonly EBAYDB options = options.Value;
@@ -48,10 +49,7 @@ public sealed class InventoryReportImportService(
         InventoryReportImportRequest request,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(options.ConnectionString))
-        {
-            throw new InvalidOperationException("Die EBAYDB-Verbindungszeichenfolge ist nicht konfiguriert.");
-        }
+
 
         if (string.IsNullOrWhiteSpace(request.SourceFileName))
         {
@@ -69,14 +67,18 @@ public sealed class InventoryReportImportService(
         var parsed = parser.Parse(xmlStream);
         var import = BuildImportCommand(request, parsed, sourceContent, sourceFileSha256);
 
-        await using var connection = new SqlConnection(options.ConnectionString);
+        await using var connection = connectionFactory.CreateConnection();
         await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
         await using var command = InventoryImportSqlCommandFactory.CreateImportCommand(
             connection,
             import,
             options.CommandTimeoutSeconds);
-
+        await using var commandvalidate = InventoryImportSqlCommandFactory.CheckedImportAgainstEFACommand(
+            connection,
+            options.CommandTimeoutSeconds);
         await using var reader = await command.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+        await using var readervalidate = await commandvalidate.ExecuteReaderAsync(cancellationToken).ConfigureAwait(false);
+
 
         if (!await reader.ReadAsync(cancellationToken).ConfigureAwait(false))
         {

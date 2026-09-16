@@ -75,13 +75,13 @@ GO
 
 IF TYPE_ID(N'ebay.efaItem') IS NULL
 BEGIN
-    EXEC(N'CREATE TYPE [ebay].[efaItem] FROM nvarchar(64) NULL;');
+    EXEC(N'CREATE TYPE [ebay].[efaItem] FROM nvarchar(47) NULL;');
 END;
 GO
 
 IF TYPE_ID(N'ebay.efaSalesUnit') IS NULL
 BEGIN
-    EXEC(N'CREATE TYPE [ebay].[efaSalesUnit] FROM nvarchar(16) NULL;');
+    EXEC(N'CREATE TYPE [ebay].[efaSalesUnit] FROM nvarchar(3) NULL;');
 END;
 GO
 

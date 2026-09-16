@@ -1,4 +1,4 @@
-namespace EBAYHttpClient.Options;
+﻿namespace EBAY.DatabaseConnection.Options;
 
 public sealed class EBAYDB
 {
