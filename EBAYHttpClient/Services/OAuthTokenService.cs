@@ -3,7 +3,8 @@ using EBAYHttpClient.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System.Web;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace EBAYHttpClient.Services;
 
@@ -70,7 +71,8 @@ public sealed class OAuthTokenService : IOAuthTokenService
         var response = await client.SendAsync(requestMessage, cancellationToken);
         if (!response.IsSuccessStatusCode)
         {
-            log.LogError("Error al obtener el token de acceso. StatusCode: {StatusCode}, ReasonPhrase: {ReasonPhrase}", response.StatusCode, response.ReasonPhrase);
+            var mserr = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            log.LogError("Error al obtener el token de acceso. StatusCode:{StatusCode}, ReasonPhrase:{ReasonPhrase}. Content:{cont}", response.StatusCode, response.ReasonPhrase, mserr);
             throw new Exception($"Error al obtener el token de acceso. StatusCode: {response.StatusCode}, ReasonPhrase: {response.ReasonPhrase}");
         }
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
@@ -89,7 +91,8 @@ public sealed class OAuthTokenService : IOAuthTokenService
     {
         var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/identity/v1/oauth2/token");
         requestMessage.Content = GetBodyRequestMessage();
-        requestMessage.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+        requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Basic", GetOAuthCredentials());
+        //requestMessage.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
         return requestMessage;
     }
 
@@ -100,9 +103,16 @@ public sealed class OAuthTokenService : IOAuthTokenService
         {
             { "grant_type", "refresh_token" },
             { "refresh_token", options.AuthToken },
-            { "scope", HttpUtility.UrlEncode(string.Join(" ", options.Scopes)) }
+            { "scope", string.Join("%20", options.Scopes.First()) }
         };
         return new FormUrlEncodedContent(body);
     }
+
+    private string GetOAuthCredentials()
+    {
+        return ToEncode64($"{options.Appid}:{options.Certid}");
+    }
+
+    private static string ToEncode64(string toencode) => Convert.ToBase64String(Encoding.ASCII.GetBytes(toencode));
 
 }

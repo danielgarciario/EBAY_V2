@@ -4,6 +4,8 @@ using EBAYHttpClient.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace EBAYHttpClient;
 
@@ -20,7 +22,9 @@ public static class ServiceCollectionExtensions
         {
             var options = serviceProvider.GetRequiredService<IOptions<EBAYClientOptions>>().Value;
             client.BaseAddress = new Uri(options.EbayAuthAPIBaseUrl);
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes($"{options.Appid}:{options.Certid}")));
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetAuthCredentials(options));
+
+            //client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", Convert.ToBase64String(System.Text.Encoding.ASCII.GetBytes($"{options.Appid}:{options.Certid}")));
         });
         // Defino el cliente para hacer el resto de llamdas al API de eBay, con el token de autenticación que se obtiene del cliente anterior
         services.AddHttpClient(Constantes.HttpclientProd, (serviceProvider, client) =>
@@ -36,4 +40,13 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    private static string GetAuthCredentials(EBAYClientOptions opts)
+    {
+        return ToEncode64($"{opts.Appid}:{opts.Certid}");
+    }
+
+
+    private static string ToEncode64(string toencode) => Convert.ToBase64String(Encoding.ASCII.GetBytes(toencode));
+
 }

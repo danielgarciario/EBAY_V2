@@ -5,5 +5,6 @@ namespace EBAY.DatabaseConnection
     public interface IEbayDatabaseConnectionFactory
     {
         SqlConnection CreateConnection();
+        int CommandTimeOutSeconds { get; }
     }
 }

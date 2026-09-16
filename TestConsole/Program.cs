@@ -8,8 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
-using System.Security.Cryptography;
-using System.Text.Json;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
@@ -31,13 +29,13 @@ await ebayService.GetSellerListAsync();
 */
 IInventoryReportImportService srv = host.Services.GetRequiredService<IInventoryReportImportService>();
 
+/*
 string fichero = @"D:\Users\dg.rio\Downloads\activeinventory-29399840325634-Sep-15-2026-02-28-41-0700.xml\activeinventory-29399840325634-Sep-15-2026-02-28-41-0700.xml";
 
 
 
 byte[] bytes = File.ReadAllBytes(fichero);
 string contenido = File.ReadAllText(fichero);
-
 
 var result = await srv.ImportXmlAsync(contenido, new InventoryReportImportRequest
 {
@@ -51,6 +49,9 @@ var result = await srv.ImportXmlAsync(contenido, new InventoryReportImportReques
     CompletedAtLocal = DateTime.Now,
     ImportedAtLocal = DateTime.Now
 });
-
 Console.WriteLine($"Result: {JsonSerializer.Serialize(result)}");
+*/
+
+await srv.LoadInventory("task-20-29166792146946", CancellationToken.None);
+
 

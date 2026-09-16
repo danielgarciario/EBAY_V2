@@ -24,4 +24,6 @@ public sealed class EbayDatabaseConnectionFactory : IEbayDatabaseConnectionFacto
     {
         return new SqlConnection(connectionString);
     }
+
+    public int CommandTimeOutSeconds => options.CommandTimeoutSeconds;
 }

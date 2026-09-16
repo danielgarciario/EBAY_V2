@@ -11,4 +11,7 @@ public interface IInventoryReportImportService
         string xml,
         InventoryReportImportRequest request,
         CancellationToken cancellationToken = default);
+
+    Task<bool> LoadInventory(CancellationToken ct);
+    Task<bool> LoadInventory(string TaskID, CancellationToken ct);
 }

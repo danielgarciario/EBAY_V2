@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/SharedProyects/">
+    <Project Path="ResultType/ResultType.shproj" Id="4b4e8998-08ad-4621-b90a-1796b8ff4dee" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path="Documentacion/ContextoDelProyecto.md" />
     <File Path="Documentacion/PlanDeInvestigacion.md" />

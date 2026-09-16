@@ -6,7 +6,7 @@ namespace EBAY.InventoryService.FeedAPI.Data
     /// <summary>
     /// https://developer.ebay.com/develop/api/sell/feed_api#sell-feed_api-inventory_task-createinventorytask.createinventorytaskrequest.feedtype
     /// </summary>
-    public sealed class createInventoryTaskrequest
+    public sealed class createInventoryTaskRequest
     {
 
 

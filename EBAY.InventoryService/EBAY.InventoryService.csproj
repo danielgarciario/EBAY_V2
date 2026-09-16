@@ -20,4 +20,6 @@
 	  <ProjectReference Include="..\EBAYHttpClient\EBAYHttpClient.csproj" />
 	</ItemGroup>
 
+	<Import Project="..\ResultType\ResultType.projitems" Label="Shared" />
+
 </Project>
