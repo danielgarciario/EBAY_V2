@@ -13,7 +13,27 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddEbayHttpClient(this IServiceCollection services, IConfiguration config)
     {
-        services.Configure<EBAYClientOptions>(config.GetSection(EBAYClientOptions.EbayOptionsKey));
+        services.AddOptions<EBAYClientOptions>()
+            .Bind(config.GetSection(EBAYClientOptions.EbayOptionsKey))
+            .Validate(
+                options => Uri.TryCreate(options.ClientBaseUrl, UriKind.Absolute, out _),
+                "Die eBay-REST-API-URL ist ungültig.")
+            .Validate(
+                options => Uri.TryCreate(options.EbayAuthAPIBaseUrl, UriKind.Absolute, out _),
+                "Die eBay-OAuth-API-URL ist ungültig.")
+            .Validate(
+                options => Uri.TryCreate(options.TradingAPIBaseUrl, UriKind.Absolute, out _),
+                "Die eBay-Trading-API-URL ist ungültig.")
+            .Validate(
+                options => !string.IsNullOrWhiteSpace(options.TradingAPIVersion),
+                "Die eBay-Trading-API-Version ist erforderlich.")
+            .Validate(
+                options => !string.IsNullOrWhiteSpace(options.EbayMarketPlaceID),
+                "Die eBay-Site-ID ist erforderlich.")
+            .Validate(
+                options => options.ClientTimeoutSeconds > 0,
+                "Das eBay-HTTP-Zeitlimit muss größer als null sein.")
+            .ValidateOnStart();
 
         services.AddSingleton<IOAuthTokenService, OAuthTokenService>();
 
