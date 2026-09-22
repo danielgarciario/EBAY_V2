@@ -54,6 +54,13 @@ public static class ServiceCollectionExtensions
             client.Timeout = TimeSpan.FromSeconds(options.ClientTimeoutSeconds);
         }).AddHttpMessageHandler(sp => new EBAYHeadersDelegateHandler(sp.GetRequiredService<IOAuthTokenService>()));
 
+        services.AddHttpClient(Constantes.HttpclientTrading, (serviceProvider, client) =>
+        {
+            var options = serviceProvider.GetRequiredService<IOptions<EBAYClientOptions>>().Value;
+            client.BaseAddress = new Uri(options.TradingAPIBaseUrl);
+            client.Timeout = TimeSpan.FromSeconds(options.ClientTimeoutSeconds);
+        }).AddHttpMessageHandler(sp => new EBAYTradingTokenDelegateHandler(sp.GetRequiredService<IOAuthTokenService>()));
+
 
         services.AddSingleton<IEBayHttpClientFactory, EBayHttpClientFactory>();
 

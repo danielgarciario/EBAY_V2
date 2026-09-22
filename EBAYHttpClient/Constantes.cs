@@ -12,6 +12,11 @@ internal static class Constantes
     /// </summary>
     public static string HttpclientProd => "HttpclientEBAYProd";
 
+    /// <summary>
+    /// Client used for XML calls to the Trading API.
+    /// </summary>
+    public static string HttpclientTrading => "HttpclientEBAYTrading";
+
 
 
 }

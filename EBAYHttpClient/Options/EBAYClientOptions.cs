@@ -23,6 +23,12 @@ public sealed class EBAYClientOptions
 
     public string Version => "1475";
     public required string EbayMarketPlaceID { get; set; } = "77";
-    public string TradingAPIBaseUrl => "https://api.ebay.com/ws/api.dll";
+    public string TradingAPIBaseUrl { get; set; } = "https://api.ebay.com/ws/api.dll";
+
+    /// <summary>
+    /// Trading API schema version sent in X-EBAY-API-COMPATIBILITY-LEVEL.
+    /// This is separate from APIVersion to preserve existing configuration.
+    /// </summary>
+    public string TradingAPIVersion { get; set; } = "1477";
 
 }

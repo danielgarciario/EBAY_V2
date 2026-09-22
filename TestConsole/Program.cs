@@ -2,6 +2,7 @@
 
 using EBAY.InventoryService;
 using EBAY.InventoryService.InventoryImport;
+using EBAY.InventoryService.InventoryUpdate;
 using EBAY.TRADING.API.CLIENT;
 using EBAYHttpClient;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,10 @@ var ebayService = host.Services.GetRequiredService<EbayTradingService>();
 await ebayService.GetSellerListAsync();
 */
 IInventoryReportImportService srv = host.Services.GetRequiredService<IInventoryReportImportService>();
+IInventoryUpdateService upd = host.Services.GetRequiredService<IInventoryUpdateService>();
+
+await upd.UpdateInventoryAsync();
+
 
 /*
 string fichero = @"D:\Users\dg.rio\Downloads\activeinventory-29399840325634-Sep-15-2026-02-28-41-0700.xml\activeinventory-29399840325634-Sep-15-2026-02-28-41-0700.xml";

@@ -1,5 +1,6 @@
 ﻿using EBAY.DatabaseConnection;
 using EBAY.InventoryService.InventoryImport;
+using EBAY.InventoryService.InventoryUpdate;
 using EBAYHttpClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,9 @@ public static class ServiceCollectionExtensions
         services.AddEBAYDatabaseConnection(config);
         services.AddSingleton<InventoryReportParser>();
         services.AddScoped<IInventoryReportImportService, InventoryReportImportService>();
+        services.AddScoped<IInventoryUpdateSource, SqlInventoryUpdateSource>();
+        services.AddSingleton<InventoryUpdateExecutionLock>();
+        services.AddScoped<IInventoryUpdateService, InventoryUpdateService>();
         return services;
     }
 

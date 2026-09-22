@@ -3,6 +3,7 @@
 public interface IEBayHttpClientFactory
 {
     HttpClient GetEbayHttpClient();
+    HttpClient GetEbayTradingApiHttpClient();
 }
 
 public sealed class EBayHttpClientFactory : IEBayHttpClientFactory
@@ -15,4 +16,6 @@ public sealed class EBayHttpClientFactory : IEBayHttpClientFactory
     }
 
     public HttpClient GetEbayHttpClient() => httpclientfact.CreateClient(Constantes.HttpclientProd);
+
+    public HttpClient GetEbayTradingApiHttpClient() => httpclientfact.CreateClient(Constantes.HttpclientTrading);
 }
