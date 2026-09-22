@@ -11,7 +11,11 @@ public interface IInventoryReportImportService
         string xml,
         InventoryReportImportRequest request,
         CancellationToken cancellationToken = default);
-
+    /// <summary>
+    /// Pide un inventario nuevo. Lo carga en la base de datos y lo valida. 
+    /// </summary>
+    /// <param name="ct"></param>
+    /// <returns></returns>
     Task<bool> LoadInventory(CancellationToken ct);
     Task<bool> LoadInventory(string TaskID, CancellationToken ct);
 }

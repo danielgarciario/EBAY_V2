@@ -12,7 +12,7 @@ public sealed class EBAYClientOptions
     public required string EbayAuthAPIBaseUrl { get; set; }
 
     public required string ContentLanguage { get; set; } = "DE-de";
-    public required string EbayMarketPlaceID { get; set; } = "123";
+
     //AuthToken is the token es el que se usa para hacer las llamadas a la API de eBay de refresh token request.
     public required string AuthToken { get; set; }
 
@@ -20,5 +20,9 @@ public sealed class EBAYClientOptions
     public required string[] Scopes { get; set; }
 
     public int ClientTimeoutSeconds { get; set; } = 120;
+
+    public string Version => "1475";
+    public required string EbayMarketPlaceID { get; set; } = "77";
+    public string TradingAPIBaseUrl => "https://api.ebay.com/ws/api.dll";
 
 }

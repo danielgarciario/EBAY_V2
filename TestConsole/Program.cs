@@ -52,6 +52,7 @@ var result = await srv.ImportXmlAsync(contenido, new InventoryReportImportReques
 Console.WriteLine($"Result: {JsonSerializer.Serialize(result)}");
 */
 
-await srv.LoadInventory("task-20-29166792146946", CancellationToken.None);
+//await srv.LoadInventory("task-20-29166792146946", CancellationToken.None);
+await srv.LoadInventory(CancellationToken.None);
 
 
