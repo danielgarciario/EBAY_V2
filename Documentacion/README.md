@@ -12,6 +12,7 @@ El objetivo de esta fase es entender el alcance, los sistemas implicados, las re
 - [Active Inventory Report real de eBay](Articulos/InventoryReportXml.md): análisis del XML real descargado desde eBay.
 - [Modelo de datos para artículos](Articulos/ModeloDatosArticulos.md): propuesta inicial de tablas para guardar inventario, variaciones y compatibilidad con EfA.
 - [Importación idempotente de artículos](Articulos/ImportacionIdempotente.md): TVPs y stored procedures para importar el inventory report desde C#.
+- [Modelo de datos para pedidos](Orders/ModeloDatosPedidos.md): modelo relacional, retención, importación y preparación para EfA de pedidos recibidos mediante la Fulfillment API.
 
 ## Reglas de trabajo para esta fase
 

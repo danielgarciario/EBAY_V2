@@ -12,6 +12,14 @@ Orden de ejecución:
 6. `DDL/006_CreateInventoryViews.sql`
 7. `DDL/007_CreateMaintenanceProcedures.sql`
 8. `DDL/008_CreateSqlAgentJobs.sql`
+9. `DDL/009_ValidateArtikelInEFAProcedure.sql`
+10. `DDL/010_CreateOrderTypes.sql`
+11. `DDL/011_CreateOrderTables.sql`
+12. `DDL/012_CreateOrderImportTableTypes.sql`
+13. `DDL/013_CreateOrderImportProcedure.sql`
+14. `DDL/014_CreateOrderViews.sql`
+15. `DDL/015_CreateOrderMaintenanceProcedure.sql`
+16. `DDL/016_CreateOrderCleanupSqlAgentJob.sql`
 
 Notas:
 
@@ -22,5 +30,6 @@ Notas:
 5. Las fechas se guardan como hora local Europe/Berlin.
 6. La importación desde C# está pensada para DataTables enviados como table-valued parameters.
 7. El job de SQL Server Agent borra diariamente los lotes de inventario cuya retención haya caducado.
-8. Si se ejecuta en una instancia sin SQL Server Agent, no ejecutar `008_CreateSqlAgentJobs.sql`.
-9. Codex no valida estos scripts contra ninguna base de datos en este proyecto; la validación y ejecución las hace el usuario.
+8. El payload JSON original de los pedidos se conserva 30 días; los pedidos normalizados se conservan 6 meses.
+9. Si se ejecuta en una instancia sin SQL Server Agent, no ejecutar `008_CreateSqlAgentJobs.sql` ni `016_CreateOrderCleanupSqlAgentJob.sql`.
+10. Codex no valida estos scripts contra ninguna base de datos en este proyecto; la validación y ejecución las hace el usuario.

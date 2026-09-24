@@ -1,13 +1,14 @@
 ﻿
 
 using EBAY.InventoryService;
-using EBAY.InventoryService.InventoryImport;
-using EBAY.InventoryService.InventoryUpdate;
+using EBAY.OrdersService;
+using EBAY.OrdersService.OrderImport;
 using EBAY.TRADING.API.CLIENT;
 using EBAYHttpClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using Serilog;
 
 var host = Host.CreateDefaultBuilder(args)
@@ -17,6 +18,7 @@ var host = Host.CreateDefaultBuilder(args)
         services.AddEbayTradingAPI(config);
         services.AddEbayHttpClient(config);
         services.AddEbayInventoryService(config);
+        services.AddEbayOrdersService(config);
     })
     .UseSerilog((context, services, configuration) =>
     {
@@ -28,10 +30,17 @@ var host = Host.CreateDefaultBuilder(args)
 var ebayService = host.Services.GetRequiredService<EbayTradingService>();
 await ebayService.GetSellerListAsync();
 */
+/*
 IInventoryReportImportService srv = host.Services.GetRequiredService<IInventoryReportImportService>();
 IInventoryUpdateService upd = host.Services.GetRequiredService<IInventoryUpdateService>();
 
 await upd.UpdateInventoryAsync();
+*/
+
+IOrderImportService ios = host.Services.GetRequiredService<IOrderImportService>();
+
+var oir = await ios.ImportModifiedOrdersAsync(DateTime.Now.AddMonths(-12));
+Console.WriteLine(JsonConvert.SerializeObject(oir));
 
 
 /*
@@ -58,6 +67,6 @@ Console.WriteLine($"Result: {JsonSerializer.Serialize(result)}");
 */
 
 //await srv.LoadInventory("task-20-29166792146946", CancellationToken.None);
-await srv.LoadInventory(CancellationToken.None);
+//await srv.LoadInventory(CancellationToken.None);
 
 

@@ -103,7 +103,7 @@ public sealed class OAuthTokenService : IOAuthTokenService
         {
             { "grant_type", "refresh_token" },
             { "refresh_token", options.AuthToken },
-            { "scope", string.Join("%20", options.Scopes.First()) }
+            { "scope", string.Join(' ', options.Scopes) }
         };
         return new FormUrlEncodedContent(body);
     }
